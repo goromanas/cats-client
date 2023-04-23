@@ -44,41 +44,10 @@ export interface BreedResponse {
 }
 
 export interface Breed {
-  adaptability: number
-  affectionLevel: number
-  altNames: string
-  cfaUrl: string
-  childFriendly: number
-  countryCode: string
-  countryCodes: string
   description: string
-  dogFriendly: number
-  energyLevel: number
-  experimental: number
-  grooming: number
-  hairless: number
-  healthIssues: number
-  hypoallergenic: number
   id: string
-  indoor: number
-  intelligence: number
-  lap: number
-  lifeSpan: string
   name: string
-  natural: number
   origin: string
-  rare: number
-  referenceImageId: string
-  rex: number
-  sheddingLevel: number
-  shortLegs: number
-  socialNeeds: number
-  strangerFriendly: number
-  suppressedTail: number
   temperament: string
-  vcahospitalsUrl: string
-  vetstreetUrl: string
-  vocalisation: number
-  weight: Weight
-  wikipediaUrl: string
+  weight: string
 }

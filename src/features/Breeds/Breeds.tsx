@@ -1,9 +1,14 @@
 import { Table } from 'components/Table'
-import { useGetBreedsQuery } from './Breeds.service'
+import { Loader } from 'components/Loader/Loader'
+import { useBreeds } from './useBreeds'
 
 export const Breeds = () => {
-  const { data } = useGetBreedsQuery()
-  if (!data) return null
-  console.log(data)
-  return <Table data={data as Record<string, any>[]} />
+  const { columns, isLoading, data } = useBreeds()
+  if (isLoading || !data) return <Loader />
+
+  return (
+    <>
+      <Table columns={columns} data={data} />
+    </>
+  )
 }
