@@ -11,10 +11,10 @@ type TableProps<T> = {
   columns: TableColumn<T, keyof T>[]
 }
 
-export const Table = <T extends Record<string, any>>({ data, columns }: TableProps<T>): JSX.Element => {
+export const Table = <T,>({ data, columns }: TableProps<T>): JSX.Element => {
   const [visibleRows, setVisibleRows] = useState<T[]>([])
   const [order, setOrder] = useState<TableOrder>('asc')
-  const [orderBy, setOrderBy] = useState<keyof T>(Object.keys(data[0])[0])
+  const [orderBy, setOrderBy] = useState<keyof T>(Object.values(columns[0])[0] as keyof T)
   const [page, setPage] = useState(0)
 
   const handleChangePage = useCallback(
@@ -45,7 +45,7 @@ export const Table = <T extends Record<string, any>>({ data, columns }: TablePro
     const initialRows = sortAndUpdateRows({ data, order, orderBy, page: 0 })
 
     setVisibleRows(initialRows)
-  }, [])
+  }, [data])
 
   return (
     <>

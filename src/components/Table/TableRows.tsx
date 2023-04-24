@@ -7,6 +7,8 @@ type TableRowsProps<T, K extends keyof T> = {
 }
 
 export const TableRows = <T, K extends keyof T>({ data, columns }: TableRowsProps<T, K>): JSX.Element => {
+  if (!data.length) return <div>Nothing to show</div>
+
   const rows = data.map((row, rowIndex) => {
     return (
       <tr key={`row-${rowIndex}`}>

@@ -45,6 +45,7 @@ export const updateVisibleRowsByPage = <T>(data: T[], page: number) =>
   data.slice(page * DEFAULT_ROWS_PER_PAGE, page * DEFAULT_ROWS_PER_PAGE + DEFAULT_ROWS_PER_PAGE)
 
 export const sortAndUpdateRows = <T>({ data, order, orderBy, page }: SortAndUpdateRowsArgs<T>) => {
+  if (!data.length) return []
   const sortedRows = sortTableRows(data, getComparator(order, orderBy))
   return updateVisibleRowsByPage(sortedRows, page)
 }

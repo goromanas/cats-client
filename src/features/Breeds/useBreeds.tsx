@@ -1,6 +1,8 @@
 import { TableColumn } from 'components/Table'
 import { useGetBreedsQuery } from './Breeds.service'
 import { Breed } from './Breeds.types'
+import { useAppSelector } from 'hooks'
+import { getSearchPhrase } from './state'
 
 const columns: TableColumn<Breed, keyof Breed>[] = [
   {
@@ -27,5 +29,8 @@ const columns: TableColumn<Breed, keyof Breed>[] = [
 
 export const useBreeds = () => {
   const { data, ...rest } = useGetBreedsQuery()
-  return { data, columns, ...rest }
+  const searchPhrase = useAppSelector(getSearchPhrase)
+  const filteredData = data?.filter(item => item.name.toLowerCase().includes(searchPhrase.toLowerCase()))
+
+  return { data: filteredData, columns, ...rest }
 }
