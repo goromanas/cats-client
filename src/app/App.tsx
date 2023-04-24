@@ -6,17 +6,23 @@ import { AppRoutes } from './AppRoutes'
 import { GlobalStyle } from 'style'
 import { Provider } from 'react-redux'
 import { store } from 'store'
+import { ThemeProvider, useTheme } from 'styled-components'
+import { theme as globalTheme } from 'style/theme'
 
 const App = () => {
+  const theme = useTheme()
+
   return (
     <Provider store={store}>
-      <QueryClientProvider client={queryClient}>
-        <ReactQueryDevtools initialIsOpen={false} />
-        <BrowserRouter>
-          <GlobalStyle />
-          <AppRoutes />
-        </BrowserRouter>
-      </QueryClientProvider>
+      <ThemeProvider theme={globalTheme}>
+        <QueryClientProvider client={queryClient}>
+          <ReactQueryDevtools initialIsOpen={false} />
+          <BrowserRouter>
+            <GlobalStyle theme={theme} />
+            <AppRoutes />
+          </BrowserRouter>
+        </QueryClientProvider>
+      </ThemeProvider>
     </Provider>
   )
 }

@@ -9,8 +9,8 @@ export const GlobalStyle = createGlobalStyle`
   
   body {
     height: 100%;
-    background: #dfe6e9;
-    color: #2d3436;
-    font-family: 'Lato', sans-serif;
+    background: ${({ theme }) => theme.colors.geyser};
+    color: ${({ theme }) => theme.colors.outerSpace};
+    font-family: ${({ theme }) => theme.fonts.roboto}
   }
 `

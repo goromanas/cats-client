@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const HeaderWrapper = styled.header`
   height: 60px;
-  background: #b2bec3;
+  background: ${({ theme }) => theme.colors.submarine};
 `
 
 export const HeaderContainer = styled.div`
@@ -11,7 +11,5 @@ export const HeaderContainer = styled.div`
   display: flex;
   align-items: center;
   height: 100%;
-`
-export const Fieldset = styled.fieldset`
-  display: flex;
+  width: 100%;
 `
