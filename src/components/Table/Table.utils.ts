@@ -10,10 +10,10 @@ export const descendingComparator = <T>(a: T, b: T, orderBy: keyof T) => {
   return 0
 }
 
-export const getComparator = <Key extends string | number | symbol>(
+export const getComparator = <T, Key extends string | number | symbol>(
   order: TableOrder,
   orderBy: Key
-): ((a: { [key in Key]: number | string }, b: { [key in Key]: number | string }) => number) => {
+): ((a: { [key in Key]: T }, b: { [key in Key]: T }) => number) => {
   return order === 'desc'
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy)

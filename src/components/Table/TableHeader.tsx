@@ -1,36 +1,27 @@
-import { Breed } from 'features/Breeds/Breeds.types'
 import { THead, TableHeaderCell, Th } from './Table.style'
 import { TableColumn, TableOrder } from './Table.types'
 import { renderIcon } from 'components/Icons'
 
-export type TableHeaderProps = {
-  columns: TableColumn<Breed, keyof Breed>[]
-  changeOrder: () => void
-  changeOrderBy: (value: keyof Breed) => void
+type TableHeaderProps<T> = {
+  columns: TableColumn<T, keyof T>[]
   order: TableOrder
-  orderBy: keyof Breed
+  orderBy: keyof T
+  handleSort: (key: keyof T) => void
 }
 
-export const TableHeader = ({ columns, changeOrder, changeOrderBy, order, orderBy }: TableHeaderProps): JSX.Element => {
-  const renderOrderIcon = (key: keyof Breed) => {
+export const TableHeader = <T,>({ columns, order, orderBy, handleSort }: TableHeaderProps<T>): JSX.Element => {
+  const renderOrderIcon = (key: keyof T) => {
     if (key !== orderBy) return null
 
     return renderIcon(order === 'asc' ? 'arrowDown' : 'arrowUp')
   }
 
-  const handleOnSortClick = (key: keyof Breed) => {
-    if (key === orderBy) {
-      changeOrder()
-      return
-    }
-    changeOrderBy(key)
-  }
-  const headers = columns.map((column, index) => {
+  const headers = columns.map(({ key, header }, index) => {
     return (
-      <Th key={`table-header-cells-${index}`} onClick={() => handleOnSortClick(column.key)}>
+      <Th key={`table-header-cells-${index}`} onClick={() => handleSort(key)}>
         <TableHeaderCell>
-          {renderOrderIcon(column.key)}
-          {column.header}
+          {renderOrderIcon(key)}
+          {header}
         </TableHeaderCell>
       </Th>
     )

@@ -5,26 +5,20 @@ import { TableHeader } from './TableHeader'
 import { TableRows } from './TableRows'
 import { getComparator, sortTableRows } from './Table.utils'
 import { TableOrder } from './Table.types'
-import { Breed } from 'features/Breeds/Breeds.types'
 import { TablePagination } from './TablePagination'
 
-const DEFAULT_ORDER = 'asc'
-const DEFAULT_ORDER_BY = 'name'
 const DEFAULT_ROWS_PER_PAGE = 5
 
-export type TableProps = {
-  data: Breed[]
-  columns: TableColumn<Breed, keyof Breed>[]
+type TableProps<T> = {
+  data: T[]
+  columns: TableColumn<T, keyof T>[]
 }
 
-export const Table = <T extends string | number>({ data, columns }: TableProps): JSX.Element => {
-  const [visibleRows, setVisibleRows] = useState<Breed[]>([])
-  const [order, setOrder] = useState<TableOrder>(DEFAULT_ORDER)
-  const [orderBy, setOrderBy] = useState<keyof Breed>(DEFAULT_ORDER_BY)
+export const Table = <T extends Record<string, any>>({ data, columns }: TableProps<T>): JSX.Element => {
+  const [visibleRows, setVisibleRows] = useState<T[]>([])
+  const [order, setOrder] = useState<TableOrder>('asc')
+  const [orderBy, setOrderBy] = useState<keyof T>(Object.keys(data[0])[0])
   const [page, setPage] = useState(0)
-
-  const handleChangeOrder = () => setOrder(prev => (prev === 'asc' ? 'desc' : 'asc'))
-  const handleChangeOrderBy = (value: keyof Breed) => setOrderBy(value)
 
   const handleChangePage = useCallback(
     (newPage: number) => {
@@ -40,6 +34,23 @@ export const Table = <T extends string | number>({ data, columns }: TableProps):
     [order, orderBy, data]
   )
 
+  const handleSort = useCallback(
+    (key: keyof T) => {
+      const isAsc = orderBy === key && order === 'asc'
+      const toggledOrder = isAsc ? 'desc' : 'asc'
+      setOrder(toggledOrder)
+      setOrderBy(key)
+
+      const sortedRows = sortTableRows(data, getComparator(toggledOrder, key))
+      const updatedRows = sortedRows.slice(
+        page * DEFAULT_ROWS_PER_PAGE,
+        page * DEFAULT_ROWS_PER_PAGE + DEFAULT_ROWS_PER_PAGE
+      )
+      setVisibleRows(updatedRows)
+    },
+    [data, order, orderBy, page]
+  )
+
   useEffect(() => {
     const rowsOnMount = sortTableRows(data, getComparator(order, orderBy)).slice(
       0 * DEFAULT_ROWS_PER_PAGE,
@@ -47,18 +58,12 @@ export const Table = <T extends string | number>({ data, columns }: TableProps):
     )
 
     setVisibleRows(rowsOnMount)
-  }, [orderBy, order])
+  }, [])
 
   return (
     <>
       <TableContainer>
-        <TableHeader
-          columns={columns}
-          changeOrder={handleChangeOrder}
-          changeOrderBy={handleChangeOrderBy}
-          order={order}
-          orderBy={orderBy}
-        />
+        <TableHeader columns={columns} order={order} orderBy={orderBy} handleSort={handleSort} />
         <TableRows data={visibleRows} columns={columns} />
       </TableContainer>
       <TablePagination
