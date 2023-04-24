@@ -4,16 +4,20 @@ import { ReactQueryDevtools } from 'react-query/devtools'
 import { BrowserRouter } from 'react-router-dom'
 import { AppRoutes } from './AppRoutes'
 import { GlobalStyle } from 'style'
+import { Provider } from 'react-redux'
+import { store } from 'store'
 
 const App = () => {
   return (
-    <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools initialIsOpen={false} />
-      <BrowserRouter>
-        <GlobalStyle />
-        <AppRoutes />
-      </BrowserRouter>
-    </QueryClientProvider>
+    <Provider store={store}>
+      <QueryClientProvider client={queryClient}>
+        <ReactQueryDevtools initialIsOpen={false} />
+        <BrowserRouter>
+          <GlobalStyle />
+          <AppRoutes />
+        </BrowserRouter>
+      </QueryClientProvider>
+    </Provider>
   )
 }
 
