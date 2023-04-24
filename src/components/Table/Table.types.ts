@@ -3,3 +3,5 @@ export type TableColumn<T, K extends keyof T> = {
   header: string
   width?: number
 }
+
+export type TableOrder = 'asc' | 'desc'

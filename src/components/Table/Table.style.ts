@@ -33,3 +33,24 @@ export const THead = styled.thead`
     text-align: left;
   }
 `
+
+export const Th = styled.th`
+  cursor: pointer;
+`
+
+export const TableHeaderCell = styled.div`
+  display: flex;
+  column-gap: 10px;
+  align-items: center;
+`
+export const PageArrowContainer = styled.div<{ isDisabled: boolean }>`
+  color: ${({ isDisabled }) => (isDisabled ? '#bdbdbd' : '#2d3436')};
+  pointer-events: ${({ isDisabled }) => (isDisabled ? 'none' : 'all')};
+  cursor: pointer;
+`
+
+export const PaginationContainer = styled.div`
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
+`
