@@ -43,7 +43,7 @@ export const Th = styled.th`
   cursor: pointer;
 `
 
-export const TableHeaderCell = styled.div`
+export const TableHeaderCell = styled.tbody`
   display: flex;
   column-gap: 10px;
   align-items: center;
@@ -58,4 +58,10 @@ export const PaginationContainer = styled.div`
   display: flex;
   align-items: center;
   column-gap: 10px;
+`
+
+export const NotFoundContainer = styled.tbody`
+  padding: 40px;
+  display: flex;
+  width: 100%;
 `

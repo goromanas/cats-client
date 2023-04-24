@@ -1,4 +1,4 @@
-import { TBody } from './Table.style'
+import { NotFoundContainer, TBody } from './Table.style'
 import { TableColumn } from './Table.types'
 
 type TableRowsProps<T, K extends keyof T> = {
@@ -7,7 +7,7 @@ type TableRowsProps<T, K extends keyof T> = {
 }
 
 export const TableRows = <T, K extends keyof T>({ data, columns }: TableRowsProps<T, K>): JSX.Element => {
-  if (!data.length) return <div>Nothing to show</div>
+  if (!data.length) return <NotFoundContainer>Nothing to show</NotFoundContainer>
 
   const rows = data.map((row, rowIndex) => {
     return (

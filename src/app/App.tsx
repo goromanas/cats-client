@@ -7,7 +7,7 @@ import { GlobalStyle } from 'style'
 import { Provider } from 'react-redux'
 import { store } from 'store'
 import { ThemeProvider, useTheme } from 'styled-components'
-import { theme as globalTheme } from 'style/theme'
+import { theme as globalTheme } from 'style'
 
 const App = () => {
   const theme = useTheme()

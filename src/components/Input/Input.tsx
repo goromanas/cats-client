@@ -1,14 +1,5 @@
 import { InputHTMLAttributes } from 'react'
-import styled, { css } from 'styled-components'
-
-const checkboxStyles = css`
-  cursor: pointer;
-  & {
-    cursor: pointer;
-    border: 4px solid blue;
-    color: green;
-  }
-`
+import styled from 'styled-components'
 
 export const InputWrapper = styled.div`
   position: relative;
@@ -35,8 +26,6 @@ export const InputContainer = styled.input<{ prefix?: string }>`
   &:focus {
     outline: 1px solid ${({ theme }) => theme.colors.roseBud};
   }
-
-  ${({ type }) => type === 'checkbox' && checkboxStyles};
 `
 
 export const InputElement: React.FC<InputHTMLAttributes<HTMLInputElement>> = ({ prefix, ...rest }) => (
