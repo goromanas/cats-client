@@ -12,3 +12,6 @@ export const HeaderContainer = styled.div`
   align-items: center;
   height: 100%;
 `
+export const Fieldset = styled.fieldset`
+  display: flex;
+`
