@@ -1,13 +1,10 @@
 import { useCallback, useEffect, useState } from 'react'
-import { TableColumn } from '.'
 import { TableContainer } from './Table.style'
 import { TableHeader } from './TableHeader'
 import { TableRows } from './TableRows'
-import { getComparator, sortTableRows } from './Table.utils'
-import { TableOrder } from './Table.types'
+import { DEFAULT_ROWS_PER_PAGE, sortAndUpdateRows } from './Table.utils'
+import { TableOrder, TableColumn } from './Table.types'
 import { TablePagination } from './TablePagination'
-
-const DEFAULT_ROWS_PER_PAGE = 5
 
 type TableProps<T> = {
   data: T[]
@@ -24,11 +21,7 @@ export const Table = <T extends Record<string, any>>({ data, columns }: TablePro
     (newPage: number) => {
       setPage(newPage)
 
-      const sortedRows = sortTableRows(data, getComparator(order, orderBy))
-      const updatedRows = sortedRows.slice(
-        newPage * DEFAULT_ROWS_PER_PAGE,
-        newPage * DEFAULT_ROWS_PER_PAGE + DEFAULT_ROWS_PER_PAGE
-      )
+      const updatedRows = sortAndUpdateRows({ data, order, orderBy, page: newPage })
       setVisibleRows(updatedRows)
     },
     [order, orderBy, data]
@@ -41,27 +34,27 @@ export const Table = <T extends Record<string, any>>({ data, columns }: TablePro
       setOrder(toggledOrder)
       setOrderBy(key)
 
-      const sortedRows = sortTableRows(data, getComparator(toggledOrder, key))
-      const updatedRows = sortedRows.slice(
-        page * DEFAULT_ROWS_PER_PAGE,
-        page * DEFAULT_ROWS_PER_PAGE + DEFAULT_ROWS_PER_PAGE
-      )
+      const updatedRows = sortAndUpdateRows({ data, order: toggledOrder, orderBy: key, page })
+
       setVisibleRows(updatedRows)
     },
     [data, order, orderBy, page]
   )
 
   useEffect(() => {
-    const rowsOnMount = sortTableRows(data, getComparator(order, orderBy)).slice(
-      0 * DEFAULT_ROWS_PER_PAGE,
-      0 * DEFAULT_ROWS_PER_PAGE + DEFAULT_ROWS_PER_PAGE
-    )
+    const initialRows = sortAndUpdateRows({ data, order, orderBy, page: 0 })
 
-    setVisibleRows(rowsOnMount)
+    setVisibleRows(initialRows)
   }, [])
 
   return (
     <>
+      <TablePagination
+        count={data.length}
+        rowsPerPage={DEFAULT_ROWS_PER_PAGE}
+        page={page}
+        onPageChange={handleChangePage}
+      />
       <TableContainer>
         <TableHeader columns={columns} order={order} orderBy={orderBy} handleSort={handleSort} />
         <TableRows data={visibleRows} columns={columns} />

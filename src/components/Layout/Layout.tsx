@@ -7,6 +7,7 @@ const Wrapper = styled.div``
 const Main = styled.main`
   margin: 0 auto;
   max-width: 1100px;
+  padding: 40px 0;
 `
 
 export const Layout = () => (

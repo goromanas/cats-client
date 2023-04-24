@@ -1,5 +1,14 @@
 import { TableOrder } from './Table.types'
 
+export const DEFAULT_ROWS_PER_PAGE = 10
+
+interface SortAndUpdateRowsArgs<T> {
+  data: T[]
+  orderBy: keyof T
+  order: TableOrder
+  page: number
+}
+
 export const descendingComparator = <T>(a: T, b: T, orderBy: keyof T) => {
   if (b[orderBy] < a[orderBy]) {
     return -1
@@ -30,4 +39,12 @@ export const sortTableRows = <T>(array: T[], comparator: (a: T, b: T) => number)
   })
 
   return stabilizedThis.map(el => el[0])
+}
+
+export const updateVisibleRowsByPage = <T>(data: T[], page: number) =>
+  data.slice(page * DEFAULT_ROWS_PER_PAGE, page * DEFAULT_ROWS_PER_PAGE + DEFAULT_ROWS_PER_PAGE)
+
+export const sortAndUpdateRows = <T>({ data, order, orderBy, page }: SortAndUpdateRowsArgs<T>) => {
+  const sortedRows = sortTableRows(data, getComparator(order, orderBy))
+  return updateVisibleRowsByPage(sortedRows, page)
 }
