@@ -41,8 +41,8 @@ export const sortTableRows = <T>(array: T[], comparator: (a: T, b: T) => number)
   return stabilizedThis.map(el => el[0])
 }
 
-export const updateVisibleRowsByPage = <T>(data: T[], page: number) =>
-  data.slice(page * DEFAULT_ROWS_PER_PAGE, page * DEFAULT_ROWS_PER_PAGE + DEFAULT_ROWS_PER_PAGE)
+export const updateVisibleRowsByPage = <T>(data: T[], page: number, defaultRowsPerPage = DEFAULT_ROWS_PER_PAGE) =>
+  data.slice(page * defaultRowsPerPage, page * defaultRowsPerPage + defaultRowsPerPage)
 
 export const sortAndUpdateRows = <T>({ data, order, orderBy, page }: SortAndUpdateRowsArgs<T>) => {
   if (!data.length) return []
