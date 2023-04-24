@@ -12,7 +12,7 @@ const loaderAnimation = keyframes`
 const LoaderContainer = styled.div`
   width: 48px;
   height: 48px;
-  border: 5px solid #fd79a8;
+  border: 5px solid ${({ theme }) => theme.colors.salmon};
   border-bottom-color: transparent;
   border-radius: 50%;
   display: inline-block;
@@ -20,11 +20,25 @@ const LoaderContainer = styled.div`
   animation: ${loaderAnimation} 1s linear infinite;
 `
 
+const LoaderWrapper = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100%;
+`
+
 export const Loader = () => (
-  <>
+  <LoaderWrapper>
     <LoaderContainer>
-      <div></div>
-      <div></div>
+      {Array(2)
+        .fill('')
+        .map((_, index) => (
+          <div key={`${index}-loader`} />
+        ))}
     </LoaderContainer>
-  </>
+  </LoaderWrapper>
 )

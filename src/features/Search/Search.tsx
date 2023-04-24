@@ -20,6 +20,7 @@ export const Search = () => {
   const selectedSearchParams = useAppSelector(getSearchParams)
   const { searchParams } = useBreeds()
   const availableSearchParams = mapArrayToKeysAndValues(searchParams)
+
   const handleChangeSearchPhrase = (event: ChangeEvent<HTMLInputElement>) => actions.setSearchPhrase(event.target.value)
 
   const handleChangeSearchParams = (key: keyof Breed) => {
